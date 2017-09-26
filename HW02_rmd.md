@@ -169,3 +169,6 @@ gapminder %>%
 
 ![](HW02_rmd_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
 
+## Reflections
+
+For this assignment, I had issues with matching my remote repo and my local working directory. My RProj file got stored in a separate file from my rmd and md files, which was a bit of a nightmare. In the end, I created a new working repo and new local folder and relinked the two, which solved the problem. But, it was definitely super frustrating and took a long time to maneuver! I think it's worth hammering home to students how important it is to have a logical file organization and to emphasize that your RProj file shouldn't ever be moved to avoid headaches like mine! It's these basic functions that seem easy, but if they happen to go awry then all of the work you do to follow is made that much harder/more time-consuming.
