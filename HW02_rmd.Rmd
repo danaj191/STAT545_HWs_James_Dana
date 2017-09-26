@@ -1,0 +1,72 @@
+---
+title: "HW_02"
+author: "DJames"
+date: "September 26, 2017"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Gapminder dataset
+```{r}
+library(gapminder)
+library(tidyverse)
+```
+
+```{r}
+class(gapminder)
+str(gapminder)
+```
+
+```{r}
+ncol(gapminder)
+```
+
+```{r}
+nrow(gapminder)
+```
+
+```{r}
+dim(gapminder)
+```
+
+```{r}
+summary(gapminder)
+```
+
+```{r}
+typeof(gapminder)
+```
+```{r}
+summary(gapminder$continent)
+```
+```{r}
+range(gapminder$lifeExp)
+```
+```{r}
+y <- gapminder$lifeExp
+hist(y)
+```
+```{r}
+summary(y)
+```
+```{r}
+x <- gapminder$year
+plot(x, y)
+```
+```{r}
+ggplot(gapminder, aes(x=year, y=lifeExp)) +
+    geom_point()
+```
+```{r}
+gapminder %>%
+    filter(country=="Canada") %>% 
+    arrange(year) %>% 
+    ggplot(aes(pop, gdpPercap, color=year)) +
+    geom_point()
+```
+
