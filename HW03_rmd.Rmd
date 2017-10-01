@@ -1,0 +1,22 @@
+---
+title: "HW03_rmd"
+author: "DJames"
+date: "October 1, 2017"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Downloading the Gapminder and Tidyverse packages
+
+```{r}
+library(gapminder)
+library(tidyverse)
+```
+```
+
+## 
