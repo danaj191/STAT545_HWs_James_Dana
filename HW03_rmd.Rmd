@@ -17,6 +17,52 @@ knitr::opts_chunk$set(echo = TRUE)
 library(gapminder)
 library(tidyverse)
 ```
+
+## Exploring the Gapminder dataset
+
+Let's check the overall strucure of the dataset, including overall (global) minimum and maximum GDP per capita:
+```{r}
+str(gapminder)
+min(gapminder$gdpPercap)
+max(gapminder$gdpPercap)
 ```
 
-## 
+Now let's get the minimum and maximum GDP per capita by continent using dplyr:
+```{r}
+my.df <- gapminder %>% group_by(continent) %>%
+     summarize(min = min(gdpPercap),
+               max = max(gdpPercap))
+results = 'asis'
+knitr::kable(my.df) #we can use knitr to try to structure the table a bit better.
+```
+We can see that the global minimum GDP per capita can be attributed to Africa, while the maximum GDP per capita can be attributed to Asia.
+
+```{r, fig.width=8}
+ggplot(gapminder, aes(continent, gdpPercap)) +
+    geom_point(alpha=0.2) +
+    geom_smooth(se=FALSE, span=0.5)
+```
+
+
+Obviously, we could calcualte the spread of GDP per capita within the continents manually based on the above information, or we could query the dataset further to do it for us:
+
+```{r}
+my.df2 <- gapminder %>% group_by(continent) %>%
+     summarize(range = max(gdpPercap) - min(gdpPercap))
+results = 'asis'
+knitr::kable(my.df2)
+```
+Let's try to calculate weighted mean of life expectancy by poplation (borrowing code described by jaradniemi in [this thread](https://stackoverflow.com/questions/23502697/r-weighted-arithmetic-mean)):
+```{r}
+my.df3 <- gapminder %>%
+   group_by(continent) %>%
+  summarise(mean = mean(lifeExp), wmean = weighted.mean(lifeExp, pop))
+results = 'asis'
+knitr::kable(my.df3)
+```
+```{r fig.width=8}
+ggplot(gapminder, aes(year, lifeExp, color=continent)) +
+    geom_point() +
+    geom_smooth(se=FALSE, span=0.5)
+```
+
