@@ -9,4 +9,4 @@ Here is a [link](https://github.com/danaj191/STAT545_HWs_James_Dana/blob/master/
 Here is a [link](https://github.com/danaj191/STAT545_HWs_James_Dana/blob/master/HW03_rmd.md) to HW 3.
 
 ### Reflections on HW 3
-Overall, this assignment went smoothly. I still can't figure out how to get the folder structure that I want on Git to separate the different files for each homework from each other, but that's OK. I also encountered some funny formatting issues, including with tables, but once I messed around with everything for a while they eventually got sorted out.
+Overall, this assignment went smoothly. I still can't figure out how to get the folder structure that I want on Git to separate the different files for each homework from each other, but that's OK. I also encountered some funny formatting issues, but once I messed around with everything for a while they eventually got sorted out. The one exception was formatting for tables, which I've called as a loss for now but would like to explore further soon.
