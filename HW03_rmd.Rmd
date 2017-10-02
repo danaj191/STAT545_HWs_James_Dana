@@ -21,6 +21,7 @@ library(tidyverse)
 ## Exploring the Gapminder dataset
 
 Let's check the overall strucure of the dataset, including overall (global) minimum and maximum GDP per capita:
+
 ```{r}
 str(gapminder)
 min(gapminder$gdpPercap)
@@ -28,6 +29,7 @@ max(gapminder$gdpPercap)
 ```
 
 Now let's get the minimum and maximum GDP per capita by continent using dplyr:
+
 ```{r}
 my.df <- gapminder %>% group_by(continent) %>%
      summarize(min = min(gdpPercap),
@@ -35,12 +37,15 @@ my.df <- gapminder %>% group_by(continent) %>%
 results = 'asis'
 knitr::kable(my.df) #we can use knitr to try to structure the table a bit better.
 ```
+
+
 We can see that the global minimum GDP per capita can be attributed to Africa, while the maximum GDP per capita can be attributed to Asia.
 
 ```{r, fig.width=8}
 ggplot(gapminder, aes(continent, gdpPercap)) +
     geom_point(alpha=0.2) +
-    geom_smooth(se=FALSE, span=0.5)
+    geom_smooth(se=FALSE, span=0.5) +
+  theme_bw()
 ```
 
 
@@ -52,7 +57,10 @@ my.df2 <- gapminder %>% group_by(continent) %>%
 results = 'asis'
 knitr::kable(my.df2)
 ```
+
+
 Let's try to calculate weighted mean of life expectancy by poplation (borrowing code described by jaradniemi in [this thread](https://stackoverflow.com/questions/23502697/r-weighted-arithmetic-mean)):
+
 ```{r}
 my.df3 <- gapminder %>%
    group_by(continent) %>%
@@ -66,3 +74,42 @@ ggplot(gapminder, aes(year, lifeExp, color=continent)) +
     geom_smooth(se=FALSE, span=0.5)
 ```
 
+
+Now let's figure out median worldwide life expectancy...
+```{r}
+median(gapminder$lifeExp)
+```
+
+
+...and determine how many countries on each continent have a life expectancy less than the median, for each year:
+```{r}
+my.df4 <- gapminder %>% 
+arrange(year, continent, country) %>% 
+  filter(lifeExp < 60.7)
+results = 'asis'
+knitr::kable(my.df4)
+```
+
+
+Let's figure out the frequency at which life expectancy globally per year is under the median for the overall timeframe:
+
+```{r}
+table(my.df4$year)
+```
+
+
+It makes sense that the year for which there is the highest frequency of life expectancy being under the global median for the entire timeframe is 1952, considering the large advances that have been made in global health since then. As such, it makes sense that the lowest frequency is in year 2007.
+
+## Digging Deeper
+
+Let's look deeper into the life expectancy data for one country in particular: Cambodia. If we plot life expectancy over time, we can see how horrific the 1977 genocide in Cabodia truy was:
+
+```{r}
+gapminder %>% 
+  filter(country=="Cambodia") %>% 
+ggplot(aes(year, lifeExp)) +
+    geom_point() +
+    geom_line(se=FALSE, span=0.5) +
+  ggtitle("Life expectancy over time, Cambodia")
+
+```
