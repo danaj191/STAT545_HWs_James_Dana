@@ -153,47 +153,17 @@ library(tidyverse)</code></pre>
 <pre class="r"><code>max(gapminder$gdpPercap)</code></pre>
 <pre><code>## [1] 113523.1</code></pre>
 <p>Now let’s get the minimum and maximum GDP per capita by continent using dplyr:</p>
-<pre class="r"><code>my.df &lt;- gapminder %&gt;% group_by(continent) %&gt;%
+<pre class="r"><code>gapminder %&gt;% group_by(continent) %&gt;%
      summarize(min = min(gdpPercap),
-               max = max(gdpPercap))
-results = 'asis'
-knitr::kable(my.df) #we can use knitr to try to structure the table a bit better.</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="left">continent</th>
-<th align="right">min</th>
-<th align="right">max</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Africa</td>
-<td align="right">241.1659</td>
-<td align="right">21951.21</td>
-</tr>
-<tr class="even">
-<td align="left">Americas</td>
-<td align="right">1201.6372</td>
-<td align="right">42951.65</td>
-</tr>
-<tr class="odd">
-<td align="left">Asia</td>
-<td align="right">331.0000</td>
-<td align="right">113523.13</td>
-</tr>
-<tr class="even">
-<td align="left">Europe</td>
-<td align="right">973.5332</td>
-<td align="right">49357.19</td>
-</tr>
-<tr class="odd">
-<td align="left">Oceania</td>
-<td align="right">10039.5956</td>
-<td align="right">34435.37</td>
-</tr>
-</tbody>
-</table>
+               max = max(gdpPercap))</code></pre>
+<pre><code>## # A tibble: 5 x 3
+##   continent        min       max
+##      &lt;fctr&gt;      &lt;dbl&gt;     &lt;dbl&gt;
+## 1    Africa   241.1659  21951.21
+## 2  Americas  1201.6372  42951.65
+## 3      Asia   331.0000 113523.13
+## 4    Europe   973.5332  49357.19
+## 5   Oceania 10039.5956  34435.37</code></pre>
 <p>We can see that the global minimum GDP per capita can be attributed to Africa, while the maximum GDP per capita can be attributed to Asia.</p>
 <pre class="r"><code>ggplot(gapminder, aes(continent, gdpPercap)) +
     geom_point(alpha=0.2) +
@@ -202,82 +172,28 @@ knitr::kable(my.df) #we can use knitr to try to structure the table a bit better
 <pre><code>## `geom_smooth()` using method = 'loess'</code></pre>
 <p><img src="data:image/png;base64,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" /><!-- --></p>
 <p>Obviously, we could calcualte the spread of GDP per capita within the continents manually based on the above information, or we could query the dataset further to do it for us:</p>
-<pre class="r"><code>my.df2 &lt;- gapminder %&gt;% group_by(continent) %&gt;%
-     summarize(range = max(gdpPercap) - min(gdpPercap))
-results = 'asis'
-knitr::kable(my.df2)</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="left">continent</th>
-<th align="right">range</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Africa</td>
-<td align="right">21710.05</td>
-</tr>
-<tr class="even">
-<td align="left">Americas</td>
-<td align="right">41750.02</td>
-</tr>
-<tr class="odd">
-<td align="left">Asia</td>
-<td align="right">113192.13</td>
-</tr>
-<tr class="even">
-<td align="left">Europe</td>
-<td align="right">48383.66</td>
-</tr>
-<tr class="odd">
-<td align="left">Oceania</td>
-<td align="right">24395.77</td>
-</tr>
-</tbody>
-</table>
+<pre class="r"><code>gapminder %&gt;% group_by(continent) %&gt;%
+     summarize(range = max(gdpPercap) - min(gdpPercap))</code></pre>
+<pre><code>## # A tibble: 5 x 2
+##   continent     range
+##      &lt;fctr&gt;     &lt;dbl&gt;
+## 1    Africa  21710.05
+## 2  Americas  41750.02
+## 3      Asia 113192.13
+## 4    Europe  48383.66
+## 5   Oceania  24395.77</code></pre>
 <p>Let’s try to calculate weighted mean of life expectancy by poplation (borrowing code described by jaradniemi in <a href="https://stackoverflow.com/questions/23502697/r-weighted-arithmetic-mean">this thread</a>):</p>
-<pre class="r"><code>my.df3 &lt;- gapminder %&gt;%
+<pre class="r"><code>gapminder %&gt;%
    group_by(continent) %&gt;%
-  summarise(mean = mean(lifeExp), wmean = weighted.mean(lifeExp, pop))
-results = 'asis'
-knitr::kable(my.df3)</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="left">continent</th>
-<th align="right">mean</th>
-<th align="right">wmean</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Africa</td>
-<td align="right">48.86533</td>
-<td align="right">50.59279</td>
-</tr>
-<tr class="even">
-<td align="left">Americas</td>
-<td align="right">64.65874</td>
-<td align="right">69.50691</td>
-</tr>
-<tr class="odd">
-<td align="left">Asia</td>
-<td align="right">60.06490</td>
-<td align="right">61.11856</td>
-</tr>
-<tr class="even">
-<td align="left">Europe</td>
-<td align="right">71.90369</td>
-<td align="right">72.30718</td>
-</tr>
-<tr class="odd">
-<td align="left">Oceania</td>
-<td align="right">74.32621</td>
-<td align="right">75.48954</td>
-</tr>
-</tbody>
-</table>
+  summarise(mean = mean(lifeExp), wmean = weighted.mean(lifeExp, pop))</code></pre>
+<pre><code>## # A tibble: 5 x 3
+##   continent     mean    wmean
+##      &lt;fctr&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+## 1    Africa 48.86533 50.59279
+## 2  Americas 64.65874 69.50691
+## 3      Asia 60.06490 61.11856
+## 4    Europe 71.90369 72.30718
+## 5   Oceania 74.32621 75.48954</code></pre>
 <pre class="r"><code>ggplot(gapminder, aes(year, lifeExp, color=continent)) +
     geom_point() +
     geom_smooth(se=FALSE, span=0.5)</code></pre>
@@ -290,7 +206,6 @@ knitr::kable(my.df3)</code></pre>
 <pre class="r"><code>my.df4 &lt;- gapminder %&gt;% 
 arrange(year, continent, country) %&gt;% 
   filter(lifeExp &lt; 60.7)
-results = 'asis'
 knitr::kable(my.df4)</code></pre>
 <table>
 <thead>

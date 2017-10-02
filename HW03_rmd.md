@@ -69,22 +69,21 @@ Now let's get the minimum and maximum GDP per capita by continent using dplyr:
 
 
 ```r
-my.df <- gapminder %>% group_by(continent) %>%
+gapminder %>% group_by(continent) %>%
      summarize(min = min(gdpPercap),
                max = max(gdpPercap))
-results = 'asis'
-knitr::kable(my.df) #we can use knitr to try to structure the table a bit better.
 ```
 
-
-
-continent           min         max
-----------  -----------  ----------
-Africa         241.1659    21951.21
-Americas      1201.6372    42951.65
-Asia           331.0000   113523.13
-Europe         973.5332    49357.19
-Oceania      10039.5956    34435.37
+```
+## # A tibble: 5 x 3
+##   continent        min       max
+##      <fctr>      <dbl>     <dbl>
+## 1    Africa   241.1659  21951.21
+## 2  Americas  1201.6372  42951.65
+## 3      Asia   331.0000 113523.13
+## 4    Europe   973.5332  49357.19
+## 5   Oceania 10039.5956  34435.37
+```
 
 
 We can see that the global minimum GDP per capita can be attributed to Africa, while the maximum GDP per capita can be attributed to Asia.
@@ -108,43 +107,44 @@ Obviously, we could calcualte the spread of GDP per capita within the continents
 
 
 ```r
-my.df2 <- gapminder %>% group_by(continent) %>%
+gapminder %>% group_by(continent) %>%
      summarize(range = max(gdpPercap) - min(gdpPercap))
-results = 'asis'
-knitr::kable(my.df2)
 ```
 
-
-
-continent        range
-----------  ----------
-Africa        21710.05
-Americas      41750.02
-Asia         113192.13
-Europe        48383.66
-Oceania       24395.77
+```
+## # A tibble: 5 x 2
+##   continent     range
+##      <fctr>     <dbl>
+## 1    Africa  21710.05
+## 2  Americas  41750.02
+## 3      Asia 113192.13
+## 4    Europe  48383.66
+## 5   Oceania  24395.77
+```
 
 
 Let's try to calculate weighted mean of life expectancy by poplation (borrowing code described by jaradniemi in [this thread](https://stackoverflow.com/questions/23502697/r-weighted-arithmetic-mean)):
 
 
 ```r
-my.df3 <- gapminder %>%
+gapminder %>%
    group_by(continent) %>%
   summarise(mean = mean(lifeExp), wmean = weighted.mean(lifeExp, pop))
-results = 'asis'
-knitr::kable(my.df3)
+```
+
+```
+## # A tibble: 5 x 3
+##   continent     mean    wmean
+##      <fctr>    <dbl>    <dbl>
+## 1    Africa 48.86533 50.59279
+## 2  Americas 64.65874 69.50691
+## 3      Asia 60.06490 61.11856
+## 4    Europe 71.90369 72.30718
+## 5   Oceania 74.32621 75.48954
 ```
 
 
 
-continent        mean      wmean
-----------  ---------  ---------
-Africa       48.86533   50.59279
-Americas     64.65874   69.50691
-Asia         60.06490   61.11856
-Europe       71.90369   72.30718
-Oceania      74.32621   75.48954
 
 ```r
 ggplot(gapminder, aes(year, lifeExp, color=continent)) +
@@ -176,7 +176,6 @@ median(gapminder$lifeExp)
 my.df4 <- gapminder %>% 
 arrange(year, continent, country) %>% 
   filter(lifeExp < 60.7)
-results = 'asis'
 knitr::kable(my.df4)
 ```
 
