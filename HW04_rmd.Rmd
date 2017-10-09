@@ -1,0 +1,29 @@
+---
+title: "HW04"
+author: "DJames"
+date: "October 9, 2017"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## General data reshaping and relationship to aggregation
+
+### Activity 2: Make a tibble with one row per year and columns for life expectancy for two or more countries.
+
+First we need to load the gapminder and tidyverse packages.
+```{r}
+library(gapminder)
+library(tidyverse)
+```
+
+We can take a look at the summary of the gapminder data before diving in:
+```{r}
+summary(gapminder)
+str(gapminder)
+```
+
