@@ -10,3 +10,9 @@ Here is a [link](https://github.com/danaj191/STAT545_HWs_James_Dana/blob/master/
 
 ### Reflections on HW 3
 Overall, this assignment went smoothly. I still can't figure out how to get the folder structure that I want on Git to separate the different files for each homework from each other, but that's OK. I also encountered some funny formatting issues, but once I messed around with everything for a while they eventually got sorted out. The one exception was formatting for tables, which I've called as a loss for now but would like to explore further soon.
+
+## HW 4
+Here is a [link](https://github.com/danaj191/STAT545_HWs_James_Dana/blob/master/HW04_rmd.md) to HW 4.
+
+### Reflections on HW 4
+This assignment was fun because it was open-ended, but also challenging because of that. I had some troubles with spreading the data how I wanted for Prompt 1 Activity 2, and that actually took a but of time to mess around with. In the end, I did Giulio's suggested "try all approaches and see what works" method, and finally got the result I wanted. I also had trouble formatting the table nicely with knitr; not sure what the calls are for making the table look extra pretty.
