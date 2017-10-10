@@ -72,3 +72,93 @@ str(gapminder)
 ##  $ gdpPercap: num  779 821 853 836 740 ...
 ```
 
+Let's filter for two countries, Brazil and Canada, and then select to only work with the country, year, and life expectancy for each:
+
+
+```r
+df_BRCA <- gapminder %>%
+  filter(year, country=="Canada" | country=="Brazil") %>% 
+  select(year, country, lifeExp)
+
+df_BRCA
+```
+
+```
+## # A tibble: 24 x 3
+##     year country lifeExp
+##    <int>  <fctr>   <dbl>
+##  1  1952  Brazil  50.917
+##  2  1957  Brazil  53.285
+##  3  1962  Brazil  55.665
+##  4  1967  Brazil  57.632
+##  5  1972  Brazil  59.504
+##  6  1977  Brazil  61.489
+##  7  1982  Brazil  63.336
+##  8  1987  Brazil  65.205
+##  9  1992  Brazil  67.057
+## 10  1997  Brazil  69.388
+## # ... with 14 more rows
+```
+
+Let's use the spread function so that each country has its own column with life expectancy listed as the variable of interest underneath, according to year:
+
+```r
+df_BRCA_long <- df_BRCA %>% 
+  spread(key = "country", value = "lifeExp")
+
+df_BRCA_long
+```
+
+```
+## # A tibble: 12 x 3
+##     year Brazil Canada
+##  * <int>  <dbl>  <dbl>
+##  1  1952 50.917 68.750
+##  2  1957 53.285 69.960
+##  3  1962 55.665 71.300
+##  4  1967 57.632 72.130
+##  5  1972 59.504 72.880
+##  6  1977 61.489 74.210
+##  7  1982 63.336 75.760
+##  8  1987 65.205 76.860
+##  9  1992 67.057 77.950
+## 10  1997 69.388 78.610
+## 11  2002 71.006 79.770
+## 12  2007 72.390 80.653
+```
+
+```r
+#Use knitr::kable() function to make the table more readable (having trouble getting it to look really nice, though)
+knitr::kable(df_BRCA_long)
+```
+
+
+
+ year   Brazil   Canada
+-----  -------  -------
+ 1952   50.917   68.750
+ 1957   53.285   69.960
+ 1962   55.665   71.300
+ 1967   57.632   72.130
+ 1972   59.504   72.880
+ 1977   61.489   74.210
+ 1982   63.336   75.760
+ 1987   65.205   76.860
+ 1992   67.057   77.950
+ 1997   69.388   78.610
+ 2002   71.006   79.770
+ 2007   72.390   80.653
+
+Now let's plot the life expectancies for each country against each other over time:
+
+```r
+ggplot(df_BRCA, aes(year, lifeExp)) +
+  geom_line(aes(color=country)) +
+  theme_bw()
+```
+
+![](HW04_rmd_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+
+## Join, merge, look up
+
+### Activity :

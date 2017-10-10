@@ -27,3 +27,33 @@ summary(gapminder)
 str(gapminder)
 ```
 
+Let's filter for two countries, Brazil and Canada, and then select to only work with the country, year, and life expectancy for each:
+
+```{r}
+df_BRCA <- gapminder %>%
+  filter(year, country=="Canada" | country=="Brazil") %>% 
+  select(year, country, lifeExp)
+
+df_BRCA
+```
+
+Let's use the spread function so that each country has its own column with life expectancy listed as the variable of interest underneath, according to year:
+```{r}
+df_BRCA_long <- df_BRCA %>% 
+  spread(key = "country", value = "lifeExp")
+
+df_BRCA_long
+#Use knitr::kable() function to make the table more readable (having trouble getting it to look really nice, though)
+knitr::kable(df_BRCA_long)
+```
+
+Now let's plot the life expectancies for each country against each other over time:
+```{r}
+ggplot(df_BRCA, aes(year, lifeExp)) +
+  geom_line(aes(color=country)) +
+  theme_bw()
+```
+
+## Join, merge, look up
+
+### Activity :
