@@ -124,4 +124,5 @@ ggplot(df.join_filter_gather, aes(year, Units)) +
   facet_wrap(~ Measure, scales = "free_y") +
   theme_bw()
 ```
+
 Both of these measures of development have increased dramatically over the past two decades.

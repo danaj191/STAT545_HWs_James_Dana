@@ -248,4 +248,5 @@ ggplot(df.join_filter_gather, aes(year, Units)) +
 ```
 
 ![](HW04_rmd_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+
 Both of these measures of development have increased dramatically over the past two decades.
