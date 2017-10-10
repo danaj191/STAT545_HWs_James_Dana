@@ -43,8 +43,7 @@ df_BRCA_long <- df_BRCA %>%
   spread(key = "country", value = "lifeExp")
 
 df_BRCA_long
-#Use knitr::kable() function to make the table more readable (having trouble getting it to look really nice, though)
-knitr::kable(df_BRCA_long)
+#Tried to use knitr::kable() function to make the table more readable but something wasn't working right. Used default instead.
 ```
 
 Now let's plot the life expectancies for each country against each other over time:
