@@ -55,4 +55,73 @@ ggplot(df_BRCA, aes(year, lifeExp)) +
 
 ## Join, merge, look up
 
-### Activity :
+### Activity 1: Create a second data frame, complementary to Gapminder. Join this with (part of) Gapminder using a  dplyr join function and make some observations about the process and result. Explore the different types of joins:
+
+I'm going to create a data.frame for Brazil's soy harvest over the past two decades, using it as a (bad) proxy for economic growth (which is a component of a country's development) in the country. Then we'll see how it relates to life expectancy over time.
+```{r}
+df_BRcensus <- "
+country,soy harvest (tons),year
+Brazil,19897804,1990
+Brazil,14937806,1991
+Brazil,19214705,1992
+Brazil,22590978,1993
+Brazil,24931832,1994
+Brazil,25682637,1995
+Brazil,23166874,1996
+Brazil,26392636,1997
+Brazil,31307440,1998
+Brazil,30987476,1999
+Brazil,32820826,2000
+Brazil,37907259,2001
+Brazil,42107618,2002
+Brazil,51919440,2003
+Brazil,49549941,2004
+Brazil,51182074,2005
+Brazil,52464640,2006
+Brazil,57857172,2007
+Brazil,59833105,2008
+Brazil,57345382,2009
+Brazil,68756343,2010
+Brazil,74815447,2011
+Brazil,65848857,2012
+Brazil,81724477,2013
+Brazil,86760520,2014
+"
+
+library(tidyverse)
+df_BRcensus <- read_csv(df_BRcensus, trim_ws = TRUE, skip = 1)
+
+```
+
+
+
+Now let's join it with the Brazil/Canada subsetted data.frame created in the previous prompt from gapminder:
+```{r}
+str(df_BRCA)
+str(df_BRcensus)
+# Need to convert the "year" column for df_BRcensus from character strings to integers
+df_BRcensus <- df_BRcensus %>% 
+  mutate(year=as.integer(year))
+# Join the two data.frames together using inner join, with "year" as the common variable:
+df.join <- inner_join(df_BRCA, df_BRcensus, by = "year")
+# Filter to get results for only Brazil and delete redundant country column
+df.join_filter <- df.join %>% 
+  filter(country.x=="Brazil") %>% 
+  select(-country.y)
+```
+
+Let's gather life expectancy and soy harvest together:
+```{r}
+df.join_filter_gather <- df.join_filter %>% 
+  gather(key = "Measure", value = "Units", lifeExp:`soy harvest (tons)`)
+```
+
+
+Now let's plot the life expecancy of Brazil's population and the soy harvest against time:
+```{r}
+ggplot(df.join_filter_gather, aes(year, Units)) +
+  geom_line(aes(color=Measure)) +
+  facet_wrap(~ Measure, scales = "free_y") +
+  theme_bw()
+```
+Both of these measures of development have increased dramatically over the past two decades.

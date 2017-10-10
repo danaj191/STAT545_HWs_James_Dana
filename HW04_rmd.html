@@ -205,79 +205,7 @@ df_BRCA_long</code></pre>
 ## 10  1997 69.388 78.610
 ## 11  2002 71.006 79.770
 ## 12  2007 72.390 80.653</code></pre>
-<pre class="r"><code>#Use knitr::kable() function to make the table more readable (having trouble getting it to look really nice, though)
-knitr::kable(df_BRCA_long)</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="right">year</th>
-<th align="right">Brazil</th>
-<th align="right">Canada</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="right">1952</td>
-<td align="right">50.917</td>
-<td align="right">68.750</td>
-</tr>
-<tr class="even">
-<td align="right">1957</td>
-<td align="right">53.285</td>
-<td align="right">69.960</td>
-</tr>
-<tr class="odd">
-<td align="right">1962</td>
-<td align="right">55.665</td>
-<td align="right">71.300</td>
-</tr>
-<tr class="even">
-<td align="right">1967</td>
-<td align="right">57.632</td>
-<td align="right">72.130</td>
-</tr>
-<tr class="odd">
-<td align="right">1972</td>
-<td align="right">59.504</td>
-<td align="right">72.880</td>
-</tr>
-<tr class="even">
-<td align="right">1977</td>
-<td align="right">61.489</td>
-<td align="right">74.210</td>
-</tr>
-<tr class="odd">
-<td align="right">1982</td>
-<td align="right">63.336</td>
-<td align="right">75.760</td>
-</tr>
-<tr class="even">
-<td align="right">1987</td>
-<td align="right">65.205</td>
-<td align="right">76.860</td>
-</tr>
-<tr class="odd">
-<td align="right">1992</td>
-<td align="right">67.057</td>
-<td align="right">77.950</td>
-</tr>
-<tr class="even">
-<td align="right">1997</td>
-<td align="right">69.388</td>
-<td align="right">78.610</td>
-</tr>
-<tr class="odd">
-<td align="right">2002</td>
-<td align="right">71.006</td>
-<td align="right">79.770</td>
-</tr>
-<tr class="even">
-<td align="right">2007</td>
-<td align="right">72.390</td>
-<td align="right">80.653</td>
-</tr>
-</tbody>
-</table>
+<pre class="r"><code>#Tried to use knitr::kable() function to make the table more readable but something wasn't working right. Used default instead.</code></pre>
 <p>Now let’s plot the life expectancies for each country against each other over time:</p>
 <pre class="r"><code>ggplot(df_BRCA, aes(year, lifeExp)) +
   geom_line(aes(color=country)) +
@@ -287,8 +215,80 @@ knitr::kable(df_BRCA_long)</code></pre>
 </div>
 <div id="join-merge-look-up" class="section level2">
 <h2>Join, merge, look up</h2>
-<div id="activity" class="section level3">
-<h3>Activity :</h3>
+<div id="activity-1-create-a-second-data-frame-complementary-to-gapminder.-join-this-with-part-of-gapminder-using-a-dplyr-join-function-and-make-some-observations-about-the-process-and-result.-explore-the-different-types-of-joins" class="section level3">
+<h3>Activity 1: Create a second data frame, complementary to Gapminder. Join this with (part of) Gapminder using a dplyr join function and make some observations about the process and result. Explore the different types of joins:</h3>
+<p>I’m going to create a data.frame for Brazil’s soy harvest over the past two decades, using it as a (bad) proxy for economic growth (which is a component of a country’s development) in the country. Then we’ll see how it relates to life expectancy over time.</p>
+<pre class="r"><code>df_BRcensus &lt;- &quot;
+country,soy harvest (tons),year
+Brazil,19897804,1990
+Brazil,14937806,1991
+Brazil,19214705,1992
+Brazil,22590978,1993
+Brazil,24931832,1994
+Brazil,25682637,1995
+Brazil,23166874,1996
+Brazil,26392636,1997
+Brazil,31307440,1998
+Brazil,30987476,1999
+Brazil,32820826,2000
+Brazil,37907259,2001
+Brazil,42107618,2002
+Brazil,51919440,2003
+Brazil,49549941,2004
+Brazil,51182074,2005
+Brazil,52464640,2006
+Brazil,57857172,2007
+Brazil,59833105,2008
+Brazil,57345382,2009
+Brazil,68756343,2010
+Brazil,74815447,2011
+Brazil,65848857,2012
+Brazil,81724477,2013
+Brazil,86760520,2014
+&quot;
+
+library(tidyverse)
+df_BRcensus &lt;- read_csv(df_BRcensus, trim_ws = TRUE, skip = 1)</code></pre>
+<p>Now let’s join it with the Brazil/Canada subsetted data.frame created in the previous prompt from gapminder:</p>
+<pre class="r"><code>str(df_BRCA)</code></pre>
+<pre><code>## Classes 'tbl_df', 'tbl' and 'data.frame':    24 obs. of  3 variables:
+##  $ year   : int  1952 1957 1962 1967 1972 1977 1982 1987 1992 1997 ...
+##  $ country: Factor w/ 142 levels &quot;Afghanistan&quot;,..: 15 15 15 15 15 15 15 15 15 15 ...
+##  $ lifeExp: num  50.9 53.3 55.7 57.6 59.5 ...</code></pre>
+<pre class="r"><code>str(df_BRcensus)</code></pre>
+<pre><code>## Classes 'tbl_df', 'tbl' and 'data.frame':    25 obs. of  3 variables:
+##  $ country           : chr  &quot;Brazil&quot; &quot;Brazil&quot; &quot;Brazil&quot; &quot;Brazil&quot; ...
+##  $ soy harvest (tons): int  19897804 14937806 19214705 22590978 24931832 25682637 23166874 26392636 31307440 30987476 ...
+##  $ year              : int  1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 ...
+##  - attr(*, &quot;spec&quot;)=List of 2
+##   ..$ cols   :List of 3
+##   .. ..$ country           : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
+##   .. ..$ soy harvest (tons): list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   .. ..$ year              : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   ..$ default: list()
+##   .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_guess&quot; &quot;collector&quot;
+##   ..- attr(*, &quot;class&quot;)= chr &quot;col_spec&quot;</code></pre>
+<pre class="r"><code># Need to convert the &quot;year&quot; column for df_BRcensus from character strings to integers
+df_BRcensus &lt;- df_BRcensus %&gt;% 
+  mutate(year=as.integer(year))
+# Join the two data.frames together using inner join, with &quot;year&quot; as the common variable:
+df.join &lt;- inner_join(df_BRCA, df_BRcensus, by = &quot;year&quot;)
+# Filter to get results for only Brazil and delete redundant country column
+df.join_filter &lt;- df.join %&gt;% 
+  filter(country.x==&quot;Brazil&quot;) %&gt;% 
+  select(-country.y)</code></pre>
+<p>Let’s gather life expectancy and soy harvest together:</p>
+<pre class="r"><code>df.join_filter_gather &lt;- df.join_filter %&gt;% 
+  gather(key = &quot;Measure&quot;, value = &quot;Units&quot;, lifeExp:`soy harvest (tons)`)</code></pre>
+<p>Now let’s plot the life expecancy of Brazil’s population and the soy harvest against time:</p>
+<pre class="r"><code>ggplot(df.join_filter_gather, aes(year, Units)) +
+  geom_line(aes(color=Measure)) +
+  facet_wrap(~ Measure, scales = &quot;free_y&quot;) +
+  theme_bw()</code></pre>
+<p><img src="data:image/png;base64,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" /><!-- --> Both of these measures of development have increased dramatically over the past two decades.</p>
 </div>
 </div>
 
