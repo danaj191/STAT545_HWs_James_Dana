@@ -18,7 +18,7 @@ Here is a [link](https://github.com/danaj191/STAT545_HWs_James_Dana/blob/master/
 This assignment was fun because it was open-ended, but also challenging because of that. I had some troubles with spreading the data how I wanted for Prompt 1 Activity 2, and that actually took a but of time to mess around with. In the end, I did Giulio's suggested "trial and error" method, and finally got the result I wanted. I also had trouble formatting the table nicely with knitr; not sure what the calls are for making the table look extra pretty. For Prompt 2 Activity 1, I wanted to use the opportunity to mess around with Brazil's ag census data, which I will be using in my thesis. However, this wasn't a natural fit for this assignment, so I ended up choosing a weird measure to explore further, just to practice the arguments and familiarize myself more with Brazil's census database. So, not a very valid or interesting comparison I did, but a helpful exercise for me nonetheless.
 
 ## HW 5
-Here is a [link]() to HW 5.
+Here is a [link](https://github.com/danaj191/STAT545_HWs_James_Dana/blob/master/HW05/HW05_rmd.md) to HW 5.
 
 ### Reflections on HW 5
 This assignment definitely increased my understanding of factors and factor levels, and hammered home reordering. However, I found that we went rather quickly in class, so I had to refer back to the class notes and relied on them quite heavily. I didn't have time to tackle the prompt about arranging, and observing whether or not that had effects on the figures, but I look forward to learning from other during the peer reviews.
