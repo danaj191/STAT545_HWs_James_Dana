@@ -1,0 +1,20 @@
+---
+title: "HW05"
+author: "DJames"
+date: "October 18, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Factor management: Gapminder
+
+Here we will define factor variables; drop factor / levels; and reorder levels based on knowledge from data.
+
+*Drop Oceania*
+```{r}
+
+```
+
