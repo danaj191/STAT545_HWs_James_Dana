@@ -279,7 +279,7 @@ ggplot(hw5_1_plot, aes(x = gdpPercap, y = fct_reorder(country, gdpPercap))) +
 
 ![](HW05_rmd_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
 
-** Visualization Design:** Remake at least one figure or create a new one, in light of something you learned in the recent class meetings about visualization design and color.
+**Visualization Design:** Remake at least one figure or create a new one, in light of something you learned in the recent class meetings about visualization design and color.
 
 Let's switch up the axes so that the x-axis is time, y-axis is GDP per capita, and color each trend line by country:
 
@@ -293,6 +293,14 @@ p <- ggplot(hw5_2_plot, aes(x = year, y = gdpPercap,
   theme_bw() +
     scale_fill_manual(values=brewer.pal(n=5, "Dark2"))
 ```
+
+
+```r
+p
+```
+
+![](HW05_rmd_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+
 
 **Writing figures to file**
 
@@ -317,8 +325,9 @@ ggsave("my_plot.pdf", p)
 
 And re-embed it:
 
+![Embedded image](C:\\Users\\Dana\\Documents\\UBC\\2017 courses Term 1\\STAT 545A\\HW\\HW05\\STAT545_HWs_James_Dana\\my_plot.png)
 
-![  ](C:\\Users\\Dana\\Documents\\UBC\\2017 courses Term 1\\STAT 545A\\HW\\HW05\\STAT545_HWs_James_Dana\\my_plot.png)
+Unsure why, but my emdedded image is appearing in my knit to html document, but not in my rmd file in my repo.
 
 **Clean the repo:**
 
