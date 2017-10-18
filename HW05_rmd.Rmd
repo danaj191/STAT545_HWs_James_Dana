@@ -1,0 +1,138 @@
+---
+title: "HW05"
+author: "DJames"
+date: "October 18, 2017"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Factor management: Gapminder
+
+Here we will define factor variables; drop factor / levels; and reorder levels based on knowledge from data. First, we need to load the gapminder data and the tidyverse package. While we're at it, we can also load the forcats and RColorBrewer packages.
+```{r}
+library(gapminder)
+library(tidyverse)
+library(forcats)
+library(RColorBrewer)
+```
+
+
+**Drop Oceania:** Filter the Gapminder data to remove observations associated with the continent of Oceania. Additionally, remove unused factor levels. Provide concrete information on the data before and after removing these rows and Oceania; address the number of rows and the levels of the affected factors.
+```{r}
+# It's good to first check the summary and structure of the original dataset
+summary(gapminder)
+str(gapminder)
+
+# We can also get a factor count using the forcats package
+fct_count(gapminder$continent)
+```
+
+The original gapminder dataframe has 1704 observations.
+
+```{r}
+# We will keep the original dataframe intact, and assign a new dataframe to the object "subsetted_gf_df" where we filter out any observations where the continent = Oceania
+subsetted_gf_df <- subset(gapminder, continent %in% c('Africa', 'Asia', 'Americas', 'Europe'))
+
+# Let's make sure the levels are dropped
+subsetted_gf_df$continent %>%
+  fct_drop() %>%
+  levels()
+
+# Let's check the summary and structure for the new dataframe to ensure there are no longer observations for Oceania
+summary(subsetted_gf_df)
+str(subsetted_gf_df)
+```
+
+Now that we've filtered out any observations where the continent is 'Oceania', the number of observations has dropped to 1680. 
+
+We can try to also filter out unused factor levels:
+
+```{r}
+subsetted_gf_df_2 <- subsetted_gf_df %>% 
+  mutate(continent_factor = ifelse(is.na(continent),
+                              "Missing_info",
+                              continent))
+
+continent_factor <- as_factor("continent_factor")
+
+# Let's make sure the levels are dropped
+gf_df_dropped <- subsetted_gf_df_2 %>% 
+  droplevels()
+nlevels(gf_df_dropped$continent)
+```
+
+Let's check out the new dataframe's summary, structure and factor levels:
+
+```{r}
+summary(gf_df_dropped)
+str(gf_df_dropped)
+nlevels(gf_df_dropped)
+```
+
+**Reorder the levels of country or continent:** Use the forcats package to change the order of the factor levels, based on a principled summary of one of the quantitative variables. Consider experimenting with a summary statistic beyond the most basic choice of the median.
+
+We can practice with reordering factor levels based simply on frequency of appearing in the dataframe:
+```{r}
+gf_df_dropped$continent %>% 
+  fct_infreq() %>%
+  levels() %>% head()
+```
+
+We can also reorder the continents based on minimum GDP per capita, and pull out the handful of countries with the lowest GDP per capita using head():
+```{r}
+fct_reorder(gf_df_dropped$country, gf_df_dropped$gdpPercap, min) %>% 
+  levels() %>% 
+  head()
+```
+
+We can plot the factor levels in the given order for the Americas (alphabetical):
+
+```{r}
+hw5_1_plot <- gf_df_dropped %>% filter(year == 2007, continent == "Americas")
+ggplot(hw5_1_plot, aes(x = gdpPercap, y = country)) + geom_point()
+```
+
+...or we can plot based on the reordered factor levels for GDP per capita, which makes the graph more easily read:
+
+```{r}
+ggplot(hw5_1_plot, aes(x = gdpPercap, y = fct_reorder(country, gdpPercap))) +
+  geom_point() +
+  theme_bw()
+```
+
+** Visualization Design:** Remake at least one figure or create a new one, in light of something you learned in the recent class meetings about visualization design and color.
+
+Let's switch up the axes so that the x-axis is time, y-axis is GDP per capita, and color each trend line by country:
+
+```{r}
+hw5_2_plot <- gf_df_dropped %>% filter(continent == "Americas")
+p <- ggplot(hw5_2_plot, aes(x = year, y = gdpPercap,
+                  color = fct_reorder2(country, year, gdpPercap))) +
+  geom_line() +
+  labs(color = "country") +
+  theme_bw() +
+    scale_fill_manual(values=brewer.pal(n=5, "Dark2"))
+```
+
+**Writing figures to file**
+
+Let's save the plot:
+
+```{r}
+ggsave("my_plot.png", p)
+ggsave("my_plot.pdf", p)
+```
+
+And re-embed it:
+
+
+![Embedded image](C:\\Users\\Dana\\Documents\\UBC\\2017 courses Term 1\\STAT 545A\\HW\\HW05\\STAT545_HWs_James_Dana\\my_plot.png)
+
+**Clean the repo:**
+
+Lastly, I've finally gone back to tidy up my repo for HW assignments, and strucured everything into folders.
